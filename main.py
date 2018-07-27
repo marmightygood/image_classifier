@@ -21,10 +21,10 @@ batch_size = int(config['hyperparameters']['batch_size'])
 resize_to = [resize_width, resize_height]
 
 # get some files from google
-#gim.download(classes, files_per_class*2)
+gim.download(classes, (nb_validation_samples + nb_train_samples) * 1.5)
 
-#tidies up files that aren't big enouh to use as training data
-#gim.rename_and_delete(os.path.join(root_dir,'image_library'),classes, resize_to) 
+#tidies up files that aren't big enough to use as training data
+gim.rename_and_delete(os.path.join(root_dir,'image_library'),classes, resize_to) 
 
 #move files to train and test dirs
 tt.train_test_split(root_dir, classes, nb_train_samples, nb_validation_samples)

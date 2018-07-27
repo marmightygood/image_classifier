@@ -23,12 +23,13 @@ def rename_and_delete(directory_name,classes, resize_to):
                 im = Image.open(from_file)
                 im = im.convert("RGBA")             
                 width,height = im.size
-                if width > 100 and height > 100:
+                if width > 110 and height > 80:
                     im.thumbnail(resize_to,Image.ANTIALIAS)
                     im.save(to_file,"png")
                 else:
                     print ("File {} is too small - deleting".format(from_file))                
-                os.remove(from_file)
+                if (from_file!=to_file):
+                    os.remove(from_file)
             except Exception as ex:
                 print ("Failed: {}".format(str(ex)))
                 os.remove(from_file) 
