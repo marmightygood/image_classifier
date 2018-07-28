@@ -8,32 +8,28 @@ from shutil import copy2
 
 from PIL import Image
 
-import image_downloaders.im  as im # importing the library
-import image_downloaders.train_test_split as train_test_split
+import image_downloaders.im as im  # importing the library
 
 
-def rename_and_delete(source_directory_name, target_directory_name, classes, resize_to):
+def publish(source_directory_name, target_directory_name, classes, resize_to):
     for class_ in classes.split(','):
+        directory_prime(target_directory_name + class_)        
         for file in os.listdir(os.path.join(source_directory_name,class_)):
+
             from_file = os.path.join(source_directory_name,class_,file)
-            to_file = os.path.join(target_directory_name,class_,os.path.splitext (from_file)[0]) + '.png'           
+            to_file = os.path.join(target_directory_name, class_ ,os.path.splitext (file)[0] + '.png')           
             print ("Rename {} to {}".format(from_file,to_file))
             try:
                 print("File size = {}".format(os.path.getsize(from_file)))
                 im = Image.open(from_file)
                 im = im.convert("RGBA")             
                 width,height = im.size
-                if width > 110 and height > 80:
+                if width > resize_to[0] and height > resize_to[1]:
                     im.thumbnail(resize_to,Image.ANTIALIAS)
                     im.save(to_file,"png")
-                else:
-                    print ("File {} is too small - deleting".format(from_file))                
-                if (from_file!=to_file):
-                    os.remove(from_file)
+                    print("Saved")
             except Exception as ex:
                 print ("Failed: {}".format(str(ex)))
-                os.remove(from_file) 
-                print ("Removed: {}".format(from_file)) 
 
 def directory_prime (directory_path):
     if not os.path.exists(directory_path):
@@ -64,4 +60,4 @@ def download(classes, files_per_class):
 
 
 if __name__ == "__main__":    
-    download('car,boat', 5)    
+    rename_and_delete("D:\\DropBox\\Dropbox\\image_classifier\\image_library","\\\\blackbox\\models\\image_library\\","man,woman", [640,480])   

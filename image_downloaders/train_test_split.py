@@ -7,8 +7,10 @@ def directory_prime (directory_path):
         os.mkdir (directory_path)  
     else:
         for file in os.listdir(directory_path):
-            os.remove(os.path.join(directory_path,file))
-
+            try:
+                os.remove(os.path.join(directory_path,file))
+            except:
+                pass    
 def train_test_split(image_library, project_dir,classes,train_images = 10,test_images = 5):
 
     train_class_dir = os.path.join(project_dir,"train")
