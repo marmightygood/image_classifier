@@ -12,11 +12,11 @@ import image_downloaders.im  as im # importing the library
 import image_downloaders.train_test_split as train_test_split
 
 
-def rename_and_delete(directory_name,classes, resize_to):
+def rename_and_delete(source_directory_name, target_directory_name, classes, resize_to):
     for class_ in classes.split(','):
-        for file in os.listdir(os.path.join(directory_name,class_)):
-            from_file = os.path.join(directory_name,class_,file)
-            to_file = os.path.join(directory_name,class_,os.path.splitext (from_file)[0]) + '.png'           
+        for file in os.listdir(os.path.join(source_directory_name,class_)):
+            from_file = os.path.join(source_directory_name,class_,file)
+            to_file = os.path.join(target_directory_name,class_,os.path.splitext (from_file)[0]) + '.png'           
             print ("Rename {} to {}".format(from_file,to_file))
             try:
                 print("File size = {}".format(os.path.getsize(from_file)))
@@ -53,6 +53,8 @@ def download(classes, files_per_class):
         chromedriver = os.path.join(project_dir,'chromedriver_osx')
     elif platform.system() == 'Linux':
         chromedriver = os.path.join(project_dir,'chromedriver_linux')
+    elif platform.system() == 'Windows':
+        chromedriver = os.path.join(project_dir,'chromedriver_win32')
     else:
         print ('OS not supported')
         exit()

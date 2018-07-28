@@ -9,7 +9,13 @@ def directory_prime (directory_path):
         for file in os.listdir(directory_path):
             os.remove(os.path.join(directory_path,file))
 
-def train_test_split(project_dir,classes,train_images = 10,test_images = 5):
+def train_test_split(image_library, project_dir,classes,train_images = 10,test_images = 5):
+
+    train_class_dir = os.path.join(project_dir,"train")
+    test_class_dir = os.path.join(project_dir,"test")
+    directory_prime(train_class_dir)
+    directory_prime(test_class_dir)
+
     for class_ in classes.split(','): 
 
         train_class_dir = os.path.join(project_dir,"train",class_)
@@ -18,9 +24,9 @@ def train_test_split(project_dir,classes,train_images = 10,test_images = 5):
         directory_prime(test_class_dir)
 
         copied = 0
-        for file in os.listdir(os.path.join(project_dir,"image_library",class_)):
+        for file in os.listdir(os.path.join(image_library,class_)):
             if copied < train_images:   
-                from_ = os.path.join(project_dir,"image_library",class_,file)
+                from_ = os.path.join(image_library,class_,file)
                 to = os.path.join(train_class_dir,file)
                 print("{} -> {}".format(from_, to))
                 try:
