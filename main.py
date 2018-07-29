@@ -23,13 +23,13 @@ im_lib_width = int(config['image_library']['image_width'])
 image_libary_location=config['image_library']['location']
 
 # get some files from google
-gim.download(classes, (nb_validation_samples + nb_train_samples) * 1.5)
+# gim.download(classes, (nb_validation_samples + nb_train_samples) * 1.5)
 
 #tidies up files that aren't big enough to use as training data
-gim.publish(os.path.join(root_dir,'image_library'),image_libary_location,classes, [im_lib_width, im_lib_height]) 
+# gim.publish(os.path.join(root_dir,'image_library'),image_libary_location,classes, [im_lib_width, im_lib_height]) 
 
 #move files to train and test dirs
-tt.train_test_split(image_libary_location, root_dir, classes, nb_train_samples, nb_validation_samples)
+# tt.train_test_split(image_libary_location, root_dir, classes, nb_train_samples, nb_validation_samples)
 
 #train
 t = tr.trainer(root_dir, classes.split(','))
