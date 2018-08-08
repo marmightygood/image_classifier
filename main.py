@@ -5,10 +5,17 @@ import image_downloaders.google_image_download as gim
 import image_downloaders.train_test_split as tt
 import trainer as tr
 
+import sys
+
+config_file = 'config.ini'
+if len(sys.argv)==1:
+    config_file = sys.argv[0]
+
+
 root_dir = os.path.dirname(os.path.realpath(__file__))
 config = configparser.ConfigParser()
 config.sections()
-config.read(os.path.join(root_dir,'config.ini')) 
+config.read(os.path.join(root_dir,config_file)) 
 
 classes = config['classes']['class_names']
 resize_width = int(config['classes']['resize_width'])
@@ -21,6 +28,7 @@ batch_size = int(config['hyperparameters']['batch_size'])
 im_lib_height = int(config['image_library']['image_height'])
 im_lib_width = int(config['image_library']['image_width'])
 image_libary_location=config['image_library']['location']
+s3_image_library=config['image_library']['s3']
 
 # get some files from google
 # gim.download(classes, (nb_validation_samples + nb_train_samples) * 1.5)
@@ -29,7 +37,7 @@ image_libary_location=config['image_library']['location']
 # gim.publish(os.path.join(root_dir,'image_library'),image_libary_location,classes, [im_lib_width, im_lib_height]) 
 
 #move files to train and test dirs
-# tt.train_test_split(image_libary_location, root_dir, classes, nb_train_samples, nb_validation_samples)
+tt.s3_train_test_split(s3_image_library, root_dir, classes, nb_train_samples, nb_validation_samples)
 
 #train
 t = tr.trainer(root_dir, classes.split(','))

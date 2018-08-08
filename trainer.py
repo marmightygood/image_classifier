@@ -6,6 +6,7 @@ from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Activation, Dropout, Flatten, Dense
 from keras import backend as K
+import matplotlib
 import matplotlib.pyplot as plt
 import pickle
 
@@ -39,6 +40,7 @@ class trainer():
             return pickle.load(f)
 
     def plot_history(self,series1, series2, title, ylabel, xlabel, legend):
+        plt.switch_backend('agg')
         plt.plot(series1)
         plt.plot(series2)
         plt.title(title)
