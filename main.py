@@ -5,17 +5,27 @@ import image_downloaders.google_image_download as gim
 import image_downloaders.train_test_split as tt
 import trainer as tr
 
+try:
+    import predictors.from_webcam as pweb
+except Exception as e:
+    print(str(e))
+import argparse
+
 import sys
 
-config_file = 'config.ini'
-if len(sys.argv)==1:
-    config_file = sys.argv[0]
+parser = argparse.ArgumentParser(description='Train an image classifier.')
+parser.add_argument('--config', help='Get a new set of images', default='config.ini')
+parser.add_argument('--new', help='Get a new set of images', action='store_true')
+parser.add_argument('--split', help='Get images from images from image library and split in to train and test data', action='store_true')
+parser.add_argument('--train', help='Train the model from data in test and train directories', action='store_true')
+parser.add_argument('--predictcam', help='Run predictions from webcam', action='store_true')
 
+args = parser.parse_args()
 
 root_dir = os.path.dirname(os.path.realpath(__file__))
 config = configparser.ConfigParser()
 config.sections()
-config.read(os.path.join(root_dir,config_file)) 
+config.read(os.path.join(root_dir,args.config)) 
 
 classes = config['classes']['class_names']
 resize_width = int(config['classes']['resize_width'])
@@ -31,14 +41,18 @@ image_libary_location=config['image_library']['location']
 s3_image_library=config['image_library']['s3']
 
 # get some files from google
-# gim.download(classes, (nb_validation_samples + nb_train_samples) * 1.5)
+if args.new:
+    gim.download(classes, (nb_validation_samples + nb_train_samples) * 1.5)
+    #tidies up files that aren't big enough to use as training data
+    gim.s3_publish(os.path.join(root_dir,'image_library'),s3_image_library,classes, [im_lib_width, im_lib_height]) 
 
-#tidies up files that aren't big enough to use as training data
-# gim.publish(os.path.join(root_dir,'image_library'),image_libary_location,classes, [im_lib_width, im_lib_height]) 
-
-#move files to train and test dirs
-tt.s3_train_test_split(s3_image_library, root_dir, classes, nb_train_samples, nb_validation_samples)
+if args.split:
+    tt.s3_train_test_split(s3_image_library, root_dir, classes, nb_train_samples, nb_validation_samples)
 
 #train
-t = tr.trainer(root_dir, classes.split(','))
-t.train(nb_train_samples=nb_train_samples, nb_validation_samples=nb_validation_samples, epochs=epochs, batch_size=batch_size,img_width=resize_width, img_height=resize_height)
+if args.train:
+    t = tr.trainer(root_dir, classes.split(','))
+    t.train(nb_train_samples=nb_train_samples, nb_validation_samples=nb_validation_samples, epochs=epochs, batch_size=batch_size,img_width=resize_width, img_height=resize_height)
+
+if args.predictcam:
+    pweb.predict(os.path.join(root_dir, "resources"))

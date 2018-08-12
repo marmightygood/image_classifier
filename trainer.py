@@ -32,7 +32,7 @@ class trainer():
         self.classes = classes
 
     def save_obj(self, obj, name ):
-        with open(name + '.pkl', 'wb') as f:
+        with open(os.path.join(self.root_dir,"resources",name + '.pkl', 'wb')) as f:
             pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
 
     def load_obj(self, name ):
@@ -70,7 +70,7 @@ class trainer():
 
         # first (and only) set of FC => RELU layers
         model.add(Flatten())
-        model.add(Dense(500))
+        model.add(Dense(250))
         model.add(Activation("relu"))
         model.add(Dropout(0.5))    
 
