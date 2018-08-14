@@ -15,8 +15,8 @@ def directory_prime (directory_path):
         for file in os.listdir(directory_path):
             try:
                 os.remove(os.path.join(directory_path,file))
-            except:
-                pass    
+            except Exception as e:
+                print (str(e))
 def train_test_split(image_library, project_dir,classes,train_images = 10,test_images = 5):
 
     train_class_dir = os.path.join(project_dir,"train")
