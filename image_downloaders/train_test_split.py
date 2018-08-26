@@ -5,31 +5,25 @@ import boto3
 import botocore
 
 import random
+from image_downloaders import directory
 
 from shutil import copy2
 
-def directory_prime (directory_path):
-    if not os.path.exists(directory_path):
-        os.mkdir (directory_path)  
-    else:
-        for file in os.listdir(directory_path):
-            try:
-                os.remove(os.path.join(directory_path,file))
-            except Exception as e:
-                print (str(e))
+
+
 def train_test_split(image_library, project_dir,classes,train_images = 10,test_images = 5):
 
     train_class_dir = os.path.join(project_dir,"train")
     test_class_dir = os.path.join(project_dir,"test")
-    directory_prime(train_class_dir)
-    directory_prime(test_class_dir)
+    directory.prime(train_class_dir)
+    directory.prime(test_class_dir)
 
-    for class_ in random.shuffle(classes.split(',')): 
+    for class_ in classes.split(','): 
 
         train_class_dir = os.path.join(project_dir,"train",class_)
         test_class_dir = os.path.join(project_dir,"test",class_)
-        directory_prime(train_class_dir)
-        directory_prime(test_class_dir)
+        directory.prime(train_class_dir)
+        directory.prime(test_class_dir)
 
     for class_ in random.shuffle(classes.split(',')): 
 
@@ -63,18 +57,36 @@ def s3_train_test_split(image_library, project_dir,classes,train_images = 10,tes
     bucket_name = image_library
     s3 = boto3.resource('s3')
 
+    my_bucket = s3.Bucket(bucket_name)
+    object_count_dict = dict()
+    insufficient_images = False
+
+    # Count available images
+    for class_ in classes.split(','):
+        object_count = 0
+        for object_ in my_bucket.objects.filter(Prefix=class_):
+            object_count += 1
+        object_count_dict[class_] = object_count
+
+    print (object_count_dict)  
+    for class_,count_ in object_count_dict.items():
+        if count_ < train_images + test_images:
+            insufficient_images = True
+
+    if insufficient_images:
+        raise Exception("Not enough images in the image library to support this model")
+
     train_dir = os.path.join(project_dir,"train") 
     test_dir = os.path.join(project_dir,"test")
-    directory_prime(train_dir)
-    directory_prime(test_dir)    
+    directory.prime(train_dir)
+    directory.prime(test_dir)    
 
-    my_bucket = s3.Bucket(bucket_name)
     for class_ in classes.split(','):
         try:
             train_class_dir = os.path.join(train_dir, class_)
             test_class_dir = os.path.join(test_dir, class_)
-            directory_prime(train_class_dir)
-            directory_prime(test_class_dir)
+            directory.prime(train_class_dir)
+            directory.prime(test_class_dir)
             copied = 0
 
             for file_ in my_bucket.objects.filter(Prefix=class_):

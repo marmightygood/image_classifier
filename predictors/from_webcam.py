@@ -30,7 +30,7 @@ def get_classname(classes, index):
         if lindex == index:
             return class_name     
 
-def predict(resources_dir):
+def predict(resources_dir, img_width, img_height):
     model = load_model(os.path.join(resources_dir,'model.please'))
     model.load_weights(os.path.join(resources_dir,'weights.please'))
     classes = load_obj(os.path.join(resources_dir,'classes'))
@@ -44,13 +44,12 @@ def predict(resources_dir):
             sleep(5)
         # Capture frame-by-frame
         ret, img_orig = video_capture.read()
-        img_width, img_height = 120, 90   
 
         img_resize = cv2.resize(img_orig, (img_height,img_width))
         img_grey = cv2.cvtColor(img_resize, cv2.COLOR_BGR2GRAY)
         img_tensor = image.img_to_array(img_grey)                    # (height, width, channels)
         img_tensor = np.expand_dims(img_tensor, axis=0)         # (1, height, width, channels), add a dimension because the model expects this shape: (batch_size, height, width, channels)
-        img_tensor /= 255.      
+        img_tensor /= 255.
 
         predicted_class = model.predict_classes(img_tensor)
         class_name = get_classname(classes, predicted_class)

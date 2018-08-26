@@ -32,7 +32,7 @@ class trainer():
         self.classes = classes
 
     def save_obj(self, obj, name ):
-        with open(os.path.join(self.root_dir,"resources",name + '.pkl', 'wb')) as f:
+        with open(os.path.join(self.root_dir,"resources",name + '.pkl'), 'wb') as f:
             pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
 
     def load_obj(self, name ):
@@ -60,11 +60,11 @@ class trainer():
         model.add(Activation('relu'))
         model.add(MaxPooling2D(pool_size=(2, 2)))
 
-        model.add(Conv2D(32, (3, 3)))
+        model.add(Conv2D(64, (3, 3)))
         model.add(Activation('relu'))
         model.add(MaxPooling2D(pool_size=(2, 2)))
 
-        model.add(Conv2D(64, (3, 3)))
+        model.add(Conv2D(128, (3, 3)))
         model.add(Activation('relu'))
         model.add(MaxPooling2D(pool_size=(2, 2)))
 
@@ -72,7 +72,7 @@ class trainer():
         model.add(Flatten())
         model.add(Dense(250))
         model.add(Activation("relu"))
-        model.add(Dropout(0.5))    
+        model.add(Dropout(0.2))    
 
         # softmax classifier - class_count
         model.add(Dense(len(self.classes)))
@@ -117,7 +117,8 @@ class trainer():
             steps_per_epoch=nb_train_samples // batch_size,
             epochs=epochs,
             validation_data=validation_generator,
-            validation_steps=nb_validation_samples // batch_size)
+            validation_steps=nb_validation_samples // batch_size,
+            verbose=2)
 
         model.save(os.path.join(self.root_dir, 'resources','model.please'))
         model.save_weights(os.path.join(self.root_dir, 'resources','weights.please'))
