@@ -56,23 +56,27 @@ class trainer():
         input_shape = (img_width, img_height, 1)
 
         model = Sequential()
+
         model.add(Conv2D(32, (3, 3), input_shape=input_shape))
-        model.add(Activation('relu'))
+        model.add(Activation('relu'))       
         model.add(MaxPooling2D(pool_size=(2, 2)))
+        model.add(Dropout(0.1))
 
         model.add(Conv2D(64, (3, 3)))
-        model.add(Activation('relu'))
+        model.add(Activation('relu'))       
         model.add(MaxPooling2D(pool_size=(2, 2)))
+        model.add(Dropout(0.1))
 
         model.add(Conv2D(128, (3, 3)))
         model.add(Activation('relu'))
         model.add(MaxPooling2D(pool_size=(2, 2)))
+        model.add(Dropout(0.1))
 
         # first (and only) set of FC => RELU layers
         model.add(Flatten())
         model.add(Dense(250))
         model.add(Activation("relu"))
-        model.add(Dropout(0.2))    
+        model.add(Dropout(0.1))    
 
         # softmax classifier - class_count
         model.add(Dense(len(self.classes)))
