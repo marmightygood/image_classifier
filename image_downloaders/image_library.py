@@ -9,6 +9,9 @@ import tempfile
 import uuid
 from shutil import copy2
 
+from datetime import date
+from datetime import timedelta
+
 import threading
 
 import boto3
@@ -38,9 +41,9 @@ class ImageLibrary():
             for file in os.listdir(os.path.join(source_directory_name,class_)):
                 from_file = os.path.join(source_directory_name,class_,file)
                 to_file = os.path.join(tempfile.gettempdir(),os.path.splitext (file)[0] + '.png')           
-                self.logger.info("Rename {} to {}".format(from_file,to_file))
+                #self.logger.info("Rename {} to {}".format(from_file,to_file))
                 try:
-                    self.logger.info("File size = {}".format(os.path.getsize(from_file)))
+                    #self.logger.info("File size = {}".format(os.path.getsize(from_file)))
                     im = Image.open(from_file)
                     im = im.convert("RGBA")             
                     width,height = im.size
@@ -48,11 +51,12 @@ class ImageLibrary():
                         im.thumbnail(resize_to,Image.ANTIALIAS)
                         im.save(to_file,"png")
                         self.bucket.upload_file(to_file, "{}/{}".format(class_,os.path.splitext (file)[0] + '.png'))
-                        self.logger.info("Publish to {}".format(class_,os.path.splitext (file)[0] + '.png'))
+                        uploaded += 1 
+                        #self.logger.info("Publish to {}".format(class_,os.path.splitext (file)[0] + '.png'))
                         os.remove(to_file)
                     os.remove(from_file)
-                    self.logger.info("Saved to {}/{}".format(class_,os.path.splitext (file)[0] + '.png'))
-                    uploaded += 1
+                    #self.logger.info("Saved to {}/{}".format(class_,os.path.splitext (file)[0] + '.png'))
+
                 except Exception as ex:
                     self.logger.info ("Failed: {}".format(str(ex)))
             if uploaded + files_published < files_per_class :
@@ -107,7 +111,9 @@ class ImageLibrary():
                 directory.prime(os.path.join(train,class_))
 
             #arguments = {"proxy":"192.168.1.63:3128","keywords":class_,"prefix_keywords":site,"suffix_keywords":salt,"limit":files_per_class,'output_directory':train,'chromedriver':chromedriver,'size':'>640*480','socket_timeout':'3', 'no_numbering':True}   #creating list of arguments
-            arguments = {"keywords":class_,"prefix_keywords":prefix,"suffix-keywords":"none","limit":files_per_class,'output_directory':train,'chromedriver':chromedriver,'size':'>640*480','socket_timeout':'3', 'no_numbering':True}   #creating list of arguments
+            #arguments = {"keywords":class_,"prefix_keywords":prefix,"suffix-keywords":"none","limit":files_per_class,'output_directory':train,'chromedriver':chromedriver,'size':'>640*480','socket_timeout':'3', 'no_numbering':True,'time_range':'{"time_min":"09/20/2018","time_max":"09/23/2018"}'}   #creating list of arguments
+            arguments = {"keywords":class_,"prefix_keywords":prefix,"limit":files_per_class,'output_directory':train,'chromedriver':chromedriver,'size':'>640*480','socket_timeout':'3', 'no_numbering':True,'time_range':'{"time_min":"09/20/2018","time_max":"09/23/2018"}'}   #creating list of arguments
+
 
             thread = downloader_thread(threadid, self.logger, self, arguments, response, class_, train)
             thread.start()
@@ -212,27 +218,47 @@ class downloader_thread (threading.Thread):
         self.train = train
         self.name = "Image-Download-Thread-[{}]".format(self.class_)
     def run(self):
+
         self.logger.info ("Starting " + self.name)
         moveto =  os.path.join(self.train,self.class_)
+        time_max = date.today()
+        time_min = time_max - timedelta(days=7)
         image_limit = int(self.arguments["limit"])
         files_downloaded = 0
+        
         while files_downloaded < image_limit:
-            self.logger.info ("{} [{}] images downloaded so far".format(files_downloaded,self.class_))
+            
             while True:
                 salt = str(uuid.uuid4())[:5]    
                 if not salt.isdigit():
                     break
                 else:
                     self.logger.info ("Salt {} is a digit, which is not allowed".format(salt))
-            self.arguments["suffix_keywords"] = salt
+
+            #self.arguments["suffix_keywords"] = salt
+            
+            #format time range
+            str_min = time_min.strftime("%m/%d/%Y")
+            str_max = time_max.strftime("%m/%d/%Y")
+            str_range = '{"time_min":"' +str_min + '","time_max":"'+str_max+'"}'
+            self.arguments['time_range'] = str_range
+
+            self.logger.info ("{} [{}] images downloaded so far. Downloading images from {} to {}".format(files_downloaded,self.class_,str_min, str_max)) 
+
             downloaded = self.response.download (self.arguments)
-            folder = "{} {} {}".format(self.arguments["prefix_keywords"], self.class_, self.arguments["suffix_keywords"])
+            #folder = "{} {} {}".format(self.arguments["prefix_keywords"], self.class_, self.arguments["suffix_keywords"])
+            folder = "{} {}".format(self.arguments["prefix_keywords"], self.class_)
+            
             for file_ in downloaded[folder]:
-                self.logger.info ("Move {} to {}".format(file_, os.path.join(self.train,self.class_)))
+                #self.logger.info ("Move {} to {}".format(file_, os.path.join(self.train,self.class_)))
                 try:
                     shutil.move(file_, moveto)
                 except:
                     pass      
+
+
+            time_max = time_max - timedelta(days=7)    
+            time_min = time_min - timedelta(days=7)     
             files_downloaded += len(os.listdir(moveto))   
 
         self.logger.info("Exiting {}. {} images downloaded".format(self.name, files_downloaded) )    

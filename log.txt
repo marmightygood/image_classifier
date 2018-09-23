@@ -1,53 +1,31 @@
-2018-09-21 21:28:41 INFO     Darwin
-2018-09-21 21:28:41 INFO     Searching for man
-2018-09-21 21:28:41 INFO     Searching for woman
-2018-09-21 21:28:41 INFO     Starting Image-Download-Thread-[man]
-2018-09-21 21:28:44 INFO     Starting Image-Download-Thread-[woman]
-2018-09-21 21:28:46 INFO     0 [woman] images downloaded so far
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/mummy+portrait+of+woman+-+roman+period+%2830+bce++-+295+ce%29+-+beeswax+and+pigments+on+wood.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/slide_1.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/mummy+portrait+of+woman+-+roman+period+%2830+bce++-+295+ce%29+-+beeswax+and+pigments+on+wood%281%29.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/fa73cf2df9bbf9daea911cdde05e6192.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/l1bnrho.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/gallic-chieftan.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/26aa33629353b9fa2c83a0e8caedadfb.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/slide_3.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/slide_2.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/c39ee99a22e55119a695b71aa88bdddd.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/20490111002_3bd3035270_b.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/081217-01-cleopatra.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/old-market-woman.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/cleopatra---mini-biography.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/e1a516758fc4a35576d8a613b09c5f8b.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/7b577542e5114004c6471e712ce207e6.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/8d9a600e55960a7dfe4e605604193e88.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/slide_4.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/980x.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/8e4b9b8ef15b301354b6cab05736cc21.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/women-in-ancient-egypt.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/28-roman-political-art-4-728.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/cleopatra2.png to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/3764d325b3a143e83912f2a91a5e81e0.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/?media_id=2183318161880319.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/1*v6rzn54n5ru8dxlhifuirw.jpeg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/12_thehive_models_xenia%20deli_book.jpeg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/572de8_d4fea100b606467c8a07d32e2ccb4f6c~mv2_d_2062_1880_s_2.web to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/cur.37.1156e_view1.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/cleopatra+%28c.+30+b.c.e.%29+committed+suicide+when+octavian+forces+invaded+egypt.+marc+antony+stabbed+himself..jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/328f3dbb-c094-48f5-a17f-ae358d147dfe.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/dkasfxmu4aao9k_.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/tumblr_nr9bg5omc01t7pwk2o1_500.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/mummy+portrait+of+a+man+with+a+wreath+-+roman+period+%2830+bce++-+295+ce%29+-+beeswax+and+pigments+on+wood.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/31260193_23842780482870382_7925181286459637760_n.png to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/na_5b8d39390a218.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/nancy-pelosi-d-ca-listens-during-a-news-conference-on-capitol-hill-january-272c-2009-in-washington2c-dc-the-house-has-approved-the-equal-pay-bill-which-will-make-suing-for-wage-discrimination-easier-p.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/slide_10.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/angela-merkel-9406424-2-402.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:29:57 INFO     Move /Users/ollie/image_classification/image_classifier/image_library/photo woman 30bce/mummy+portrait+of+a+young+boy+-+roman+period+%2830+bce++-+295+ce%29+-+beeswax+and+pigments+on+wood.jpg to /Users/ollie/image_classification/image_classifier/image_library/woman
-2018-09-21 21:30:03 INFO     Exiting Image-Download-Thread-[woman]. 40 images downloaded
-2018-09-21 21:30:03 INFO     All downloader threads finished
-2018-09-21 21:30:03 INFO     Not enough files found (0 so far), downloading more
-2018-09-21 21:30:03 INFO     Darwin
-2018-09-21 21:30:03 INFO     Searching for man
-2018-09-21 21:30:03 INFO     Starting Image-Download-Thread-[man]
-2018-09-21 21:30:12 INFO     0 [man] images downloaded so far
+2018-09-23 14:14:06 INFO     Darwin
+2018-09-23 14:14:06 INFO     Searching for man
+2018-09-23 14:14:06 INFO     Searching for woman
+2018-09-23 14:14:06 INFO     Starting Image-Download-Thread-[man]
+2018-09-23 14:14:06 INFO     Salt 02029 is a digit, which is not allowed
+2018-09-23 14:14:06 INFO     0 [man] images downloaded so far. Downloading images from 09/16/2018 to 09/23/2018
+2018-09-23 14:14:06 INFO     Starting Image-Download-Thread-[woman]
+2018-09-23 14:14:06 INFO     0 [woman] images downloaded so far. Downloading images from 09/16/2018 to 09/23/2018
+2018-09-23 14:14:27 INFO     Exiting Image-Download-Thread-[man]. 20 images downloaded
+2018-09-23 14:14:28 INFO     Exiting Image-Download-Thread-[woman]. 20 images downloaded
+2018-09-23 14:14:28 INFO     All downloader threads finished
+2018-09-23 14:15:08 INFO     Not enough files found (16 so far), downloading more
+2018-09-23 14:15:08 INFO     Darwin
+2018-09-23 14:15:08 INFO     Searching for man
+2018-09-23 14:15:08 INFO     Starting Image-Download-Thread-[man]
+2018-09-23 14:15:08 INFO     0 [man] images downloaded so far. Downloading images from 09/16/2018 to 09/23/2018
+2018-09-23 14:15:24 INFO     Exiting Image-Download-Thread-[man]. 20 images downloaded
+2018-09-23 14:15:24 INFO     All downloader threads finished
+2018-09-23 14:23:34 INFO     Not enough files found (17 so far), downloading more
+2018-09-23 14:23:34 INFO     Darwin
+2018-09-23 14:23:34 INFO     Searching for woman
+2018-09-23 14:23:34 INFO     Starting Image-Download-Thread-[woman]
+2018-09-23 14:23:34 INFO     0 [woman] images downloaded so far. Downloading images from 09/16/2018 to 09/23/2018
+2018-09-23 14:24:04 INFO     Exiting Image-Download-Thread-[woman]. 20 images downloaded
+2018-09-23 14:24:04 INFO     All downloader threads finished
+2018-09-23 14:25:05 INFO     Class    Images
+2018-09-23 14:25:09 INFO     man 16
+2018-09-23 14:25:09 INFO     woman 17
+2018-09-23 14:25:09 ERROR    Not enough images for class man
+2018-09-23 14:25:09 ERROR    Not enough images for class woman
+2018-09-23 14:25:09 ERROR    Not enough images in the image library to support this model

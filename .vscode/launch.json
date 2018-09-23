@@ -12,9 +12,9 @@
             "program": "${file}",
             "args": [
                 "--config=config_dev.ini",
-                "--new"
+                "--new",
                 //"--train",
-                //"--split"
+                "--split"
                 //"--predictcam"
             ]
         },

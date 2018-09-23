@@ -60,9 +60,9 @@ try:
     # get some files from google
     
     if args.new:
-        im_lib.download(classes, (nb_validation_samples + nb_train_samples)*2)
+        im_lib.download(classes, (nb_validation_samples + nb_train_samples))
         #tidies up files that aren't big enough to use as training data
-        im_lib.s3_publish(os.path.join(root_dir,'image_library'),s3_image_library,classes, [im_lib_width, im_lib_height],  (nb_validation_samples + nb_train_samples)*2) 
+        im_lib.s3_publish(os.path.join(root_dir,'image_library'),s3_image_library,classes, [im_lib_width, im_lib_height],  (nb_validation_samples + nb_train_samples)) 
         s.send_notification("Get Test and Train data")
 
     if args.split:

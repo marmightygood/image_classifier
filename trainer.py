@@ -102,7 +102,8 @@ class trainer():
             target_size=(img_width, img_height),
             batch_size=batch_size,
             class_mode='categorical',
-            color_mode='grayscale'
+            color_mode='grayscale',
+            horizontal_flip=True
             )
 
         print(train_generator.class_indices)
