@@ -1,31 +1,10 @@
-2018-09-23 14:14:06 INFO     Darwin
-2018-09-23 14:14:06 INFO     Searching for man
-2018-09-23 14:14:06 INFO     Searching for woman
-2018-09-23 14:14:06 INFO     Starting Image-Download-Thread-[man]
-2018-09-23 14:14:06 INFO     Salt 02029 is a digit, which is not allowed
-2018-09-23 14:14:06 INFO     0 [man] images downloaded so far. Downloading images from 09/16/2018 to 09/23/2018
-2018-09-23 14:14:06 INFO     Starting Image-Download-Thread-[woman]
-2018-09-23 14:14:06 INFO     0 [woman] images downloaded so far. Downloading images from 09/16/2018 to 09/23/2018
-2018-09-23 14:14:27 INFO     Exiting Image-Download-Thread-[man]. 20 images downloaded
-2018-09-23 14:14:28 INFO     Exiting Image-Download-Thread-[woman]. 20 images downloaded
-2018-09-23 14:14:28 INFO     All downloader threads finished
-2018-09-23 14:15:08 INFO     Not enough files found (16 so far), downloading more
-2018-09-23 14:15:08 INFO     Darwin
-2018-09-23 14:15:08 INFO     Searching for man
-2018-09-23 14:15:08 INFO     Starting Image-Download-Thread-[man]
-2018-09-23 14:15:08 INFO     0 [man] images downloaded so far. Downloading images from 09/16/2018 to 09/23/2018
-2018-09-23 14:15:24 INFO     Exiting Image-Download-Thread-[man]. 20 images downloaded
-2018-09-23 14:15:24 INFO     All downloader threads finished
-2018-09-23 14:23:34 INFO     Not enough files found (17 so far), downloading more
-2018-09-23 14:23:34 INFO     Darwin
-2018-09-23 14:23:34 INFO     Searching for woman
-2018-09-23 14:23:34 INFO     Starting Image-Download-Thread-[woman]
-2018-09-23 14:23:34 INFO     0 [woman] images downloaded so far. Downloading images from 09/16/2018 to 09/23/2018
-2018-09-23 14:24:04 INFO     Exiting Image-Download-Thread-[woman]. 20 images downloaded
-2018-09-23 14:24:04 INFO     All downloader threads finished
-2018-09-23 14:25:05 INFO     Class    Images
-2018-09-23 14:25:09 INFO     man 16
-2018-09-23 14:25:09 INFO     woman 17
-2018-09-23 14:25:09 ERROR    Not enough images for class man
-2018-09-23 14:25:09 ERROR    Not enough images for class woman
-2018-09-23 14:25:09 ERROR    Not enough images in the image library to support this model
+2021-04-20 18:02:56 INFO     Darwin
+2021-04-20 18:02:56 INFO     Searching for plate
+2021-04-20 18:02:56 INFO     Starting Image-Download-Thread-[plate]
+2021-04-20 18:02:56 INFO     Searching for brick
+2021-04-20 18:02:56 INFO     0 [plate] images downloaded so far. Downloading images from 10/22/2020 to 04/20/2021
+2021-04-20 18:02:56 INFO     Starting Image-Download-Thread-[brick]
+2021-04-20 18:02:56 INFO     0 [brick] images downloaded so far. Downloading images from 10/22/2020 to 04/20/2021
+2021-04-20 18:02:56 INFO     Searching for minifigure
+2021-04-20 18:02:56 INFO     Starting Image-Download-Thread-[minifigure]
+2021-04-20 18:02:56 INFO     0 [minifigure] images downloaded so far. Downloading images from 10/22/2020 to 04/20/2021

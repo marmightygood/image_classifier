@@ -4,7 +4,6 @@ import os
 
 import image_downloaders.image_library as image_library
 import trainer as tr
-import sendmail as s
 
 try:
     import predictors.from_webcam_beta as pweb
@@ -53,33 +52,26 @@ epochs = int(config['hyperparameters']['epochs'])
 batch_size = int(config['hyperparameters']['batch_size'])
 im_lib_height = int(config['image_library']['image_height'])
 im_lib_width = int(config['image_library']['image_width'])
-s3_image_library=config['image_library']['s3']
 
 try:
-    im_lib = image_library.ImageLibrary(logger, s3_image_library)    
+    im_lib = image_library.ImageLibrary(logger)    
     # get some files from google
     
     if args.new:
         im_lib.download(classes, (nb_validation_samples + nb_train_samples))
         #tidies up files that aren't big enough to use as training data
-        im_lib.s3_publish(os.path.join(root_dir,'image_library'),s3_image_library,classes, [im_lib_width, im_lib_height],  (nb_validation_samples + nb_train_samples)) 
-        s.send_notification("Get Test and Train data")
 
     if args.split:
-        im_lib.s3_train_test_split(root_dir, classes, nb_train_samples, nb_validation_samples)
-        s.send_notification("Train Test Split")
+        for class_ in classes.split(','):
+            im_lib.split_class( class_, os.path.join(root_dir ,"train"),os.path.join(root_dir ,"test"), nb_train_samples, nb_validation_samples)
 
-    #train
+    # #train
     if args.train:
         t = tr.trainer(root_dir, classes.split(','))
         t.train(nb_train_samples=nb_train_samples, nb_validation_samples=nb_validation_samples, epochs=epochs, batch_size=batch_size,img_width=resize_width, img_height=resize_height)
-        s.send_notification("Training")
 
-    if args.count:
-        logger.info(im_lib.count_files_in_s3(classes))
 
     if args.predictcam:
         pweb.predict(os.path.join(root_dir, "resources"), resize_width, resize_height)
 except Exception as e:
-    logger.error((str(e)))
-    s.send_notification("Error", str(e))        
+    logger.error((str(e)))      

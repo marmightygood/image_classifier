@@ -90,8 +90,7 @@ class trainer():
         train_datagen = ImageDataGenerator(
             rescale=1. / 255,
             shear_range=0.2,
-            zoom_range=0.2,
-            horizontal_flip=True)
+            zoom_range=0.2)
 
         # this is the augmentation configuration we will use for testing:
         # only rescaling
@@ -102,8 +101,7 @@ class trainer():
             target_size=(img_width, img_height),
             batch_size=batch_size,
             class_mode='categorical',
-            color_mode='grayscale',
-            horizontal_flip=True
+            color_mode='grayscale'
             )
 
         print(train_generator.class_indices)
@@ -125,8 +123,8 @@ class trainer():
             validation_steps=nb_validation_samples // batch_size,
             verbose=2)
 
-        model.save(os.path.join(self.root_dir, 'resources','model.please'))
-        model.save_weights(os.path.join(self.root_dir, 'resources','weights.please'))
+        model.save(os.path.join(self.root_dir, 'resources'))
+        model.save_weights(os.path.join(self.root_dir, 'resources'))
 
         #plot accuracy
         self.plot_history(

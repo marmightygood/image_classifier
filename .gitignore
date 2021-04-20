@@ -3,3 +3,7 @@
 *.jpg
 image_library
 
+*.jpeg
+*.index
+*.webp
+*.pkl

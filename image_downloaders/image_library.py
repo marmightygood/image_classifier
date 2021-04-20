@@ -1,5 +1,4 @@
 import configparser
-from image_downloaders import directory
 import io
 import os
 import pathlib
@@ -13,93 +12,44 @@ from datetime import date
 from datetime import timedelta
 
 import threading
+from image_downloaders import directory
+from image_downloaders import im 
 
-import boto3
-import botocore
 from PIL import Image
 
-import image_downloaders.im as im  # importing the library
 
 class ImageLibrary():
 
     logger = None
-    s3_bucket_name = None
-    bucket = None
+    library_directory = None
+    project_dir = ""
 
-    def __init__(self, logger, s3_bucket_name):
-        self.s3_bucket_name = s3_bucket_name
-        self.logger = logger
+    def __init__(self, logger,):
 
-        s3 = boto3.resource('s3')
-        self.bucket = s3.Bucket(s3_bucket_name)
-
-    #moves files from temporary directories to s3 if they're big enough
-    def s3_publish(self, source_directory_name, bucket_name, classes, resize_to, files_per_class, files_published=0):
-
-        for class_ in classes.split(','):    
-            uploaded = 0 
-            for file in os.listdir(os.path.join(source_directory_name,class_)):
-                from_file = os.path.join(source_directory_name,class_,file)
-                to_file = os.path.join(tempfile.gettempdir(),os.path.splitext (file)[0] + '.png')           
-                #self.logger.info("Rename {} to {}".format(from_file,to_file))
-                try:
-                    #self.logger.info("File size = {}".format(os.path.getsize(from_file)))
-                    im = Image.open(from_file)
-                    im = im.convert("RGBA")             
-                    width,height = im.size
-                    if width > resize_to[0] and height > resize_to[1]:
-                        im.thumbnail(resize_to,Image.ANTIALIAS)
-                        im.save(to_file,"png")
-                        self.bucket.upload_file(to_file, "{}/{}".format(class_,os.path.splitext (file)[0] + '.png'))
-                        uploaded += 1 
-                        #self.logger.info("Publish to {}".format(class_,os.path.splitext (file)[0] + '.png'))
-                        os.remove(to_file)
-                    os.remove(from_file)
-                    #self.logger.info("Saved to {}/{}".format(class_,os.path.splitext (file)[0] + '.png'))
-
-                except Exception as ex:
-                    self.logger.info ("Failed: {}".format(str(ex)))
-            if uploaded + files_published < files_per_class :
-                #there weren't enough files, download some more and try again
-                self.logger.info("Not enough files found ({} so far), downloading more".format(uploaded + files_published))
-                self.download(class_, files_per_class, False)
-                self.s3_publish(source_directory_name, bucket_name, class_, resize_to, files_per_class, uploaded + files_published)    
-
-    def count_files_in_s3 (self, classes):
-        self.logger.info("Class    Images")
-        object_count_dict = dict()
-
-        # Count available images
-        for class_ in classes.split(','):
-            object_count = 0
-            for object_ in self.bucket.objects.filter(Prefix=class_):
-                object_count += 1
-            self.logger.info("{} {}".format (class_,object_count))    
-            object_count_dict[class_] = object_count          
-
-        return object_count_dict          
+        self.logger = logger 
+        self.project_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+        self.library_directory = os.path.join(self.project_dir,'image_library')   
 
     #retrieves files_per_class images from google images for each class in classes
     def download(self, classes, files_per_class,prime=True):             
 
-        project_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-        train = os.path.join(project_dir,'image_library')
+        
         if prime:
-            directory.prime(train)
+            directory.prime(self.library_directory)
         response = im.googleimagesdownload()   #class instantiation
 
         self.logger.info (platform.system())
         if platform.system() == 'Darwin':
-            chromedriver = os.path.join(project_dir,'chromedriver_osx')
+            chromedriver = os.path.join(self.project_dir,'chromedriver_osx')
         elif platform.system() == 'Linux':
-            chromedriver = os.path.join(project_dir,'chromedriver_linux')
+            chromedriver = os.path.join(self.project_dir,'chromedriver_linux')
         elif platform.system() == 'Windows':
-            chromedriver = os.path.join(project_dir,'chromedriver_win32')
+            chromedriver = os.path.join(self.project_dir,'chromedriver_win32')
         else:
             self.logger.error ('OS not supported')
             exit()
 
-        prefix = "photo"
+        prefix = "lego"
 
         threads = []
         threadid = 0
@@ -108,14 +58,14 @@ class ImageLibrary():
             
             self.logger.info ("Searching for {}".format(class_))
             if prime:
-                directory.prime(os.path.join(train,class_))
+                directory.prime(os.path.join(self.library_directory,class_))
 
             #arguments = {"proxy":"192.168.1.63:3128","keywords":class_,"prefix_keywords":site,"suffix_keywords":salt,"limit":files_per_class,'output_directory':train,'chromedriver':chromedriver,'size':'>640*480','socket_timeout':'3', 'no_numbering':True}   #creating list of arguments
             #arguments = {"keywords":class_,"prefix_keywords":prefix,"suffix-keywords":"none","limit":files_per_class,'output_directory':train,'chromedriver':chromedriver,'size':'>640*480','socket_timeout':'3', 'no_numbering':True,'time_range':'{"time_min":"09/20/2018","time_max":"09/23/2018"}'}   #creating list of arguments
-            arguments = {"keywords":class_,"prefix_keywords":prefix,"limit":files_per_class,'output_directory':train,'chromedriver':chromedriver,'size':'>640*480','socket_timeout':'3', 'no_numbering':True,'time_range':'{"time_min":"09/20/2018","time_max":"09/23/2018"}'}   #creating list of arguments
+            arguments = {"keywords":class_,"prefix_keywords":prefix,"limit":files_per_class,'output_directory':self.library_directory,'chromedriver':chromedriver,'size':'>640*480','socket_timeout':'3', 'no_numbering':True}   #creating list of arguments
 
 
-            thread = downloader_thread(threadid, self.logger, self, arguments, response, class_, train)
+            thread = downloader_thread(threadid, self.logger, self, arguments, response, class_, self.library_directory)
             thread.start()
             threads.append(thread)
             threadid+=1
@@ -125,69 +75,33 @@ class ImageLibrary():
             t.join()
         self.logger.info("All downloader threads finished")            
 
-    def s3_train_test_split(self, project_dir, classes, train_images = 10, test_images = 5):
-
-        insufficient_images = False
-
-        # Count available images
-        for class_,count_ in self.count_files_in_s3(classes).items():
-            if count_ < train_images + test_images:
-                insufficient_images = True
-                self.logger.error("Not enough images for class {}".format(class_))
-
-        if insufficient_images:
-            raise Exception("Not enough images in the image library to support this model")
-
-        train_dir = os.path.join(project_dir,"train") 
-        test_dir = os.path.join(project_dir,"test")
-        directory.prime(train_dir)
-        directory.prime(test_dir)    
-
-        threadid = 0
-        threads = []
-
-        for class_ in classes.split(','):
-            thread = spliiter_thread(threadid, self.logger, self, class_,train_dir, test_dir, train_images, test_images)
-            thread.start()
-            threads.append(thread)
-            threadid+=1
-
-        # Wait for all threads to complete
-        for t in threads:
-            t.join()
-        self.logger.info("All threads finished")
-
     def split_class (self,class_,train_dir, test_dir, train_images, test_images):
-            try:
-                train_class_dir = os.path.join(train_dir, class_)
-                test_class_dir = os.path.join(test_dir, class_)
-                directory.prime(train_class_dir)
-                directory.prime(test_class_dir)
-                copied = 0
-                for file_ in self.bucket.objects.filter(Prefix=class_):
-                    self.logger.info(file_)
-                    target = None
-                    if copied < train_images:                 
-                        target = os.path.join(train_dir, file_.key)
-                    elif copied < (train_images + test_images):                 
-                        target = os.path.join(test_dir, file_.key)    
-                    else:
-                        self.logger.info("Done")
-                        break 
-                    try:
-                        self.logger.info("Class [{}] image {}: {} -> {}".format(class_,copied,file_.key,target))                        
-                        self.bucket.download_file(file_.key, target)
-                        im = Image.open(target)
-                        im.load()
-                        copied += 1
-                    except Exception as e:
-                        self.logger.error ("Class [{}] image {} failed. Exception: {}".format(class_,copied,str(e)))
-                        if os.path.exists(target) and not os.path.isdir(target):
-                            os.remove(target) 
+        try:
+            train_class_dir = os.path.join(train_dir, class_)
+            test_class_dir = os.path.join(test_dir, class_)
+            directory.prime(train_class_dir)
+            directory.prime(test_class_dir)
+            copied = 0
+            source_dir = os.path.join(self.library_directory, "lego " + class_)
+            for file_ in os.listdir(source_dir):
+                self.logger.info(file_)
+                target = None
+                if copied < train_images:                 
+                    target = os.path.join(train_dir,class_, file_)
+                elif copied < (train_images + test_images):                 
+                    target = os.path.join(test_dir,class_, file_)    
+                else:
+                    self.logger.info("Done")
+                    break 
+                try:
+                    copy2(os.path.join(source_dir,file_), target)
+                    copied += 1
+                except Exception as e:
+                    self.logger.error ("Class [{}] image {} failed. Exception: {}".format(class_,copied,str(e)))
 
-            except Exception as e:
-                self.logger.error ("Class [{}] failed, exception: {}".format(class_,str(e))) 
-                raise Exception ("Train test split failed for class [{}]. Error Message: {}".format(class_,str(e)))                     
+        except Exception as e:
+            self.logger.error ("Class [{}] failed, exception: {}".format(class_,str(e))) 
+            raise Exception ("Train test split failed for class [{}]. Error Message: {}".format(class_,str(e)))                     
 
 class spliiter_thread (threading.Thread):
     def __init__(self, threadID, logger, image_library, class_,train_dir, test_dir, train_images, test_images):
@@ -222,18 +136,18 @@ class downloader_thread (threading.Thread):
         self.logger.info ("Starting " + self.name)
         moveto =  os.path.join(self.train,self.class_)
         time_max = date.today()
-        time_min = time_max - timedelta(days=7)
+        time_min = time_max - timedelta(days=180)
         image_limit = int(self.arguments["limit"])
         files_downloaded = 0
         
         while files_downloaded < image_limit:
             
-            while True:
-                salt = str(uuid.uuid4())[:5]    
-                if not salt.isdigit():
-                    break
-                else:
-                    self.logger.info ("Salt {} is a digit, which is not allowed".format(salt))
+            # while True:
+            #     salt = str(uuid.uuid4())[:5]    
+            #     if not salt.isdigit():
+            #         break
+            #     else:
+            #         self.logger.info ("Salt {} is a digit, which is not allowed".format(salt))
 
             #self.arguments["suffix_keywords"] = salt
             
@@ -246,19 +160,20 @@ class downloader_thread (threading.Thread):
             self.logger.info ("{} [{}] images downloaded so far. Downloading images from {} to {}".format(files_downloaded,self.class_,str_min, str_max)) 
 
             downloaded = self.response.download (self.arguments)
-            #folder = "{} {} {}".format(self.arguments["prefix_keywords"], self.class_, self.arguments["suffix_keywords"])
-            folder = "{} {}".format(self.arguments["prefix_keywords"], self.class_)
-            
-            for file_ in downloaded[folder]:
-                #self.logger.info ("Move {} to {}".format(file_, os.path.join(self.train,self.class_)))
-                try:
-                    shutil.move(file_, moveto)
-                except:
-                    pass      
+            # #folder = "{} {} {}".format(self.arguments["prefix_keywords"], self.class_, self.arguments["suffix_keywords"])
+            # folder = "{}".format(self.class_)
 
 
-            time_max = time_max - timedelta(days=7)    
-            time_min = time_min - timedelta(days=7)     
+            # for file_ in downloaded[folder]:
+            #     #self.logger.info ("Move {} to {}".format(file_, os.path.join(self.train,self.class_)))
+            #     try:
+            #         shutil.move(file_, moveto)
+            #     except:
+            #         pass      
+
+
+            time_max = time_max - timedelta(days=180)    
+            time_min = time_min - timedelta(days=180)     
             files_downloaded += len(os.listdir(moveto))   
 
         self.logger.info("Exiting {}. {} images downloaded".format(self.name, files_downloaded) )    

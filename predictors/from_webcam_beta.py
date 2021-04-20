@@ -2,7 +2,7 @@ import os
 import pickle
 import uuid
 
-import cv2
+from cv2 import cv2
 import keras
 import matplotlib.pyplot as plt
 import numpy as np
@@ -32,17 +32,18 @@ def get_classname(classes, index):
             return class_name     
 
 def predict(resources_dir, img_width, img_height):
-    model = load_model(os.path.join(resources_dir,'model.please'))
-    model.load_weights(os.path.join(resources_dir,'weights.please'))
-    classes = load_obj(os.path.join(resources_dir,'classes'))
 
     # 0 means the default video capture device in OS
     video_capture = cv2.VideoCapture(0)
 
+    model = load_model(os.path.join(resources_dir))
+
+    classes = load_obj(os.path.join(resources_dir,'classes'))
+
+
+
     # infinite loop, break by key ESC
     while True:
-        if not video_capture.isOpened():
-            sleep(5)
         # Capture frame-by-frame
         ret, img_orig = video_capture.read()
 
@@ -74,7 +75,7 @@ def predict(resources_dir, img_width, img_height):
             img_grey = cv2.cvtColor(img_grey, cv2.COLOR_GRAY2RGB) 
             #im_to_display = np.concatenate((im_to_display, img_grey), axis=1) 
             im_to_display = cv2.resize(im_to_display, (640, 480))  
-            if prediction_prob > 0.5:
+            if prediction_prob > 0.4:
                 cv2.putText(im_to_display,class_name,(10,430),cv2.FONT_HERSHEY_SIMPLEX,0.5,(0,255,255),2)            
             else:
                 cv2.putText(im_to_display,"Unknown Class",(10,430),cv2.FONT_HERSHEY_SIMPLEX ,0.5,(0,255,255),2)                            
