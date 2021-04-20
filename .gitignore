@@ -6,4 +6,5 @@ image_library
 *.jpeg
 *.index
 *.webp
-*.pkl
+*.pklp
+log.txt
