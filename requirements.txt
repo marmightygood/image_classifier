@@ -221,7 +221,7 @@ ruamel-yaml-conda @ file:///opt/concourse/worker/volumes/live/53b096c9-f5b7-4029
 scikit-image==0.18.1
 scikit-learn @ file:///opt/concourse/worker/volumes/live/0c77b068-a026-4996-6842-33e5544ec13b/volume/scikit-learn_1614446667823/work
 scipy @ file:///opt/concourse/worker/volumes/live/4b862b0b-d4dd-45bc-4077-6b029a41aced/volume/scipy_1616703213337/work
-Scrapy==2.4.1
+Scrapy==2.6.2
 scrapy-wayback-machine==1.0.2
 seaborn @ file:///tmp/build/80754af9/seaborn_1608578541026/work
 selenium==3.141.0
