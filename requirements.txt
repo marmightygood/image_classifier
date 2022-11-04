@@ -265,7 +265,7 @@ toolz @ file:///home/linux1/recipes/ci/toolz_1610987900194/work
 tornado @ file:///opt/concourse/worker/volumes/live/05341796-4198-4ded-4a9a-332fde3cdfd1/volume/tornado_1606942323372/work
 tqdm @ file:///tmp/build/80754af9/tqdm_1615925068909/work
 traitlets @ file:///home/ktietz/src/ci/traitlets_1611929699868/work
-Twisted==21.2.0
+Twisted==22.10.0
 typing-extensions @ file:///home/ktietz/src/ci_mi/typing_extensions_1612808209620/work
 ujson==1.35
 unicodecsv==0.14.1
